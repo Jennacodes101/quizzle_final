@@ -1,0 +1,92 @@
+/* downloads */
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@100;300;400;500&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,500&display=swap');
+@import url('components/nav.css');
+@import url('components/containers.css');
+
+/* BASE - font, colors, background,   */
+
+
+/* Colors for brand */
+.bbyblue
+{
+    color: #7C99B7
+}
+.orange
+{
+    color: #fe5d26;
+}
+.jet
+{
+    color: #24292E;
+}
+.charcol{
+  color: #424b54ff;
+}
+.indigo
+{
+    color: #023f78ff;
+}
+.whiteish{
+  color: #f5f3f5ff;}
+
+.whitest
+{
+  color: #fffaffff;
+}
+
+
+
+p {
+  font-size: 20px;
+  font-family: 'Archivo', sans-serif;
+  color: #2b3236;
+}
+h1, h2, h3, h4 {
+  font-family: 'Roboto', sans-serif;
+}
+
+
+
+/* LAYOUT- nav bar, footer*/
+
+.logo-sm{
+  display: block;
+  width: auto;
+  height: 100%;
+}
+
+
+/* MODULE - resuable content */
+.important_info{
+  padding: 10px;
+  background: rgba(254,93,38,.5);
+  border-radius: 25px;
+}
+.intro-head{
+  background-color: #24292E;
+  color: #fffaffff;
+  padding: 3px;
+  border-radius: 5px;
+}
+
+input:invalid {
+  box-shadow: 0 0 5px 1px #FE5D26;
+}
+
+input:focus:invalid {
+  box-shadow: none;
+}
+/* STATE */
+/* THEME */
+
+a{
+  color:#7794B2;
+}
+a:hover{
+  color:#BB796C;
+}
+
+.standout{
+  text-shadow: 2px 2px #BB796C;
+
+}

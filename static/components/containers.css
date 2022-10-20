@@ -1,0 +1,25 @@
+.container-login{
+  background-color: #FFC2AE;
+  border-radius: 10px
+}
+
+.error-div{
+  padding: 2px;
+  border-radius: 5px;
+  text-shadow: -2px 2px 4px #ca6e56;
+
+}
+
+.with-color {
+  background-color: #7794B2;
+  color: #FFFAFF;
+  padding: 4px;
+  border-radius: 5px;
+}
+
+.with-color-dark {
+  background-color: #425B76;
+  color: #FFFAFF;
+  padding: 4px;
+  border-radius: 5px;
+}

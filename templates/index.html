@@ -1,0 +1,117 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Quizzle: Home
+{% endblock %}
+
+{% block main %}
+
+<div class="container border-bottom d-inline-flex" id="header">
+  <div>
+    <h2 class="with-color px-3"> Quizzle homepage </h2>
+  </div>
+</div>
+<div class="container">
+  <div class="container-sm m-3 text-center pb-2">
+    <div class="d-inline-flex flex-column border rounded p-3">
+      <div class="p-2">
+        <h3 class="with-color-dark"> Today's Quiz</h3>
+      </div>
+      <div id="played-today-div"class="p-2">
+      </div>
+  </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-6 col-lg-6">
+      <table id="streaks_table" class="table table-striped">
+        <thead>
+          <tr>
+            <th> Top Streaks</th>
+          </tr>
+          <tr>
+            <th> # </th>
+            <th> Username</th>
+            <th> Streak</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for streak in top_streaks %}
+          <tr>
+            <td>{{ streak["rank"] }} </td>
+            <td>{{ streak["username"] }}</td>
+            <td> {{ streak["streak"] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="col-12 col-lg-6">
+      <table id="overall_rank_table" class="table table-striped">
+        <thead>
+          <tr>
+            <th> Top Scorers </th>
+          </tr>
+          <tr>
+            <th> # </th>
+            <th> Username</th>
+            <th> Total Score </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for rank in total_ranks %}
+          <tr>
+            <td> {{ rank["rank"] }}</td>
+            <td> {{ rank["username"] }}</td>
+            <td> {{ rank["total"] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <table id="today_streaks" class="table table-striped">
+        <thead>
+          <tr>
+            <th> Today's Scores </th>
+          </tr>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">User</th>
+            <th scope="col">Score</th>
+            <th scope="col">Time</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          {% for today in today_ranks %}
+          <tr>
+            <td>{{ today["rank"] }} </td>
+            <td> {{ today["username"] }} </td>
+            <td> {{ today["total_score"] }}</td>
+            <td> {{ today["time_count"] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+</div>
+
+<script>
+  // check if played today condition - display play button or display play result
+  const PlayedToday = {{ user_played_today | tojson | safe }};
+  const TodayDiv = document.getElementById("played-today-div");
+  if (PlayedToday[0] == '1'){
+    console.log("if = true")
+    TodayDiv.innerHTML += '<div class="alert alert-primary" role="alert"> You already played today! </div>';
+  } else {
+    console.log("if = false")
+    TodayDiv.innerHTML += '<a type="button" class="btn btn-outline-secondary m-1 w-75" href="/play" target="_blank">Play</a>';
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link href="../static/play_style.css" rel="stylesheet">
+  <title>Play: Quizzle</title>
+</head>
+<body>
+  <div id="container">
+      <div id="start">Start Quiz!</div>
+      <div id="quiz" style="display: none">
+          <div id="question"></div>
+          <div id="choices">
+              <div class="choice" id="A" onclick="checkAnswer('A')"></div>
+              <div class="choice" id="B" onclick="checkAnswer('B')"></div>
+              <div class="choice" id="C" onclick="checkAnswer('C')"></div>
+              <div class="choice" id="D" onclick="checkAnswer('D')"></div>
+          </div>
+          <div id="timer">
+              <div id="counter"></div>
+          </div>
+          <div id="progress"></div>
+      </div>
+      <div id="scoreContainer" style="display: none"> </div>
+      <div id ="homeButton" style="display: none"> <a href="/"> <p>return home</p></a> </div>
+  </div>
+
+
+  <script>
+        // select all elements
+      const start = document.getElementById("start");
+      const quiz = document.getElementById("quiz");
+      const question = document.getElementById("question");
+      const choiceA = document.getElementById("A");
+      const choiceB = document.getElementById("B");
+      const choiceC = document.getElementById("C");
+      const choiceD = document.getElementById("D");
+      const counter = document.getElementById("counter");
+      const progress = document.getElementById("progress");
+      const scoreDiv = document.getElementById("scoreContainer");
+      const questions = {{ t_questions| tojson | safe}};
+
+
+      // initialize variables
+
+      const lastQuestion = questions.length - 1;
+      let runningQuestion = 0;
+      let count = 0;
+      let TIMER;
+      let score = 0;
+
+      // render question data into divs
+      function renderQuestion(){
+          let q = questions[runningQuestion];
+
+          question.innerHTML = "<p>"+ q.question +"</p>";
+          choiceA.innerHTML = q.A;
+          choiceB.innerHTML = q.B;
+          choiceC.innerHTML = q.C;
+          choiceD.innerHTML = q.D;
+          correct = q.correct_answer.toUpperCase();
+      }
+
+      start.addEventListener("click",startQuiz);
+
+      // start quiz
+      function startQuiz(){
+          start.style.display = "none"; //hide start button
+          renderQuestion(); // load in question
+          quiz.style.display = "block"; // display question
+          renderProgress(); // display progrss
+          renderCounter(); // display counter
+          TIMER = setInterval(renderCounter,1000); // 1000ms = 1s , continually render counter
+      }
+
+      // render progress
+      function renderProgress(){
+          for(let qIndex = 0; qIndex <= lastQuestion; qIndex++){
+              progress.innerHTML += "<div class='prog' id="+ qIndex +"></div>";
+          }
+      }
+
+      // counter render
+
+      function renderCounter(){
+          if(runningQuestion <= lastQuestion){
+              counter.innerHTML = count;
+              count++
+          }
+      }
+
+      // checkAnwer
+
+      function checkAnswer(answer){
+          if( answer == correct){
+              // answer is correct
+              score++;
+              //console.log(score);
+              // change progress color to green
+              answerIsCorrect();
+          }else{
+              // answer is wrong
+              // change progress color to red
+              answerIsWrong();
+          }
+          if(runningQuestion < lastQuestion){
+              runningQuestion++;
+              renderQuestion();
+          }else{
+              // end the quiz and show the score
+              runningQuestion ++
+              scoreRender();
+          }
+      }
+
+      // answer is correct
+      function answerIsCorrect(){
+          document.getElementById(runningQuestion).style.backgroundColor = "#0f0";
+      }
+
+      // answer is Wrong
+      function answerIsWrong(){
+          document.getElementById(runningQuestion).style.backgroundColor = "#f00";
+      }
+
+      // score render
+      function scoreRender(){
+          scoreDiv.style.display = "block";
+          //console.log(count);
+          //console.log(score);
+          let score1 = score;
+          const timeBonus = ((5 - (count / 60)) * (score1 / 100));
+          //console.log(timeBonus);
+
+          if(timeBonus > 5){
+            timeBonus = 5;
+          }else if(timeBonus < 0){
+            timeBonus = 0;
+          }
+          // calculate the amount of question percent answered by the user
+          //console.log(score);
+          //console.log(timeBonus);
+          let scoreTotal = parseFloat((score + timeBonus).toFixed(2));
+
+          //console.log(scoreTotal);
+          //console.log(timeBonus);
+          // choose the image based on the total
+          // counter the offset
+          count = count - 1;
+          scoreDiv.innerHTML += "<h3> Results!<h3><br>"
+          scoreDiv.innerHTML += "<p> timebonus:" + timeBonus.toFixed(2) + "<br>" + "totalscore:" + scoreTotal.toFixed(2) + "</p>";
+          //console.log(timeBonus);
+          //console.log(scoreTotal);
+          // a button reveal a now send the information back to python to be uploaded into streaks/ plays
+          // finalscore, count,score, use post to
+          let userResults = {
+            score : score,
+            time : count,
+            finalScore : scoreTotal
+          }
+          homeButton.style.display = "block";
+
+          const request = new XMLHttpRequest()
+          request.open('POST', `/processUserResults/${JSON.stringify(userResults)}`)
+          request.send();
+
+      }
+  </script>
+</body>
+</html>

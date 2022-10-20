@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Quizzle: Your Profile
+{% endblock %}
+
+{% block main %}
+  <!-- user quick info - username, streak, today's score, current rank -->
+<div class="container d-inline-flex my-3" id="header">
+  <div>
+    <h2 class="with-color px-3"> Your Quizzle Profile </h2>
+  </div>
+</div>
+
+<div class=" container border mb-4" id="profileHeadDiv">
+  <div class="row align-items-start">
+    <div class="col">
+      <strong>hello,</strong>
+      <h4><span class="badge bg-secondary whiteish">{{ username[0]["username"] }}</span></h4>
+    </div>
+    <div class="col">
+      <strong>Streak</strong>
+      <h4><span class="badge bg-secondary whiteish">{{ streak_info[0]["streak"] }}</span></h4>
+    </div>
+    <div class="col">
+      <strong>Longest Streak</strong>
+      <h4><span class="badge bg-secondary whiteish">{{ streak_info[0]["longest_streak"] }}</span></h4>
+    </div>
+    <div class="col">
+      <strong>Played Today?</strong>
+      <h4><span class="badge bg-secondary whiteish"><div id="playedTodayDiv"></span></h4>
+    </div>
+  </div>
+</div>
+<!-- play history -->
+<div class="container justify-content-center">
+  <div class="container text-center">
+    <h3> Your Stats </h3>
+  </div>
+  <table class="table table-light table-striped">
+    <thead>
+      <tr>
+        <th> Score</th>
+        <th> Time </th>
+        <th> Date </th>
+        <th> Total Score</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for stat in stats %}
+      <tr>
+        <td> {{ stat["answers_correct"] }} <p>/ 10</p></td>
+        <td> {{ stat["time_count"] }}</td>
+        <td>{{ stat["date"] }}</td>
+        <td>{{ stat["total_score"] }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<script>
+  // check if played today condition - display play button or display play result
+  const streak = {{ streak_info | tojson  | safe }};
+  console.log(streak)
+  const playedToday = document.getElementById("playedTodayDiv");
+  console.log(streak.played_today)
+  if (streak[0]["played_today"] == "1"){
+    console.log("if = true")
+    playedToday.innerHTML += " Yes! ";
+  } else {
+    console.log("if = false")
+    playedToday.innerHTML += "<a href='/play'> Play now! </a>";
+  }
+</script>
+
+{% endblock %}

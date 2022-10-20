@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Quizzle : Log In
+{% endblock %}
+
+{% block main %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-center m-1 mb-1">
+      <h1 class="intro-head"> Quizzle</h1>
+      <img class="logo-sm" src="../static/images/LOGO.png">
+    </div>
+    <h5 class="charcol text-center mb-4"> A daily Spanish-English quiz game</h5>
+
+    <div class="container m-2 ">
+  <div class="row justify-content-center">
+    <div class="col-12 col-sm-12  col-md-6 col-lg-4  container-login p-5">
+      <h3 class="whiteish text-center standout mb-3">log-in</h3>
+      <form action="/login" method="post">
+        <!-- Username input -->
+        <div class="form-outline mb-4">
+          <input type="text" id="username" name="username" placeholder="Username" class="form-control" required />
+        </div>
+
+        <!-- Password input -->
+        <div class="form-outline mb-4">
+          <input type="text" id="password" name="password" class="form-control" placeholder="Password" required />
+        </div>
+        <!-- error div -->
+        <div class="error-div text-center">
+          {% if error_message is not none %}
+          <p class="whiteish">{{ error_message }} </p>
+          {% else %}
+              NONE
+          {% endif %}
+        </div>
+
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-dark btn-block mb-4">Sign in</button>
+
+        <!-- Register buttons -->
+        <div class="text-center">
+          <p>Not a member? <a class="whiteish" href="/register">Register</a></p>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

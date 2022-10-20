@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Register
+{% endblock %}
+
+{% block main %}
+<div class="container mt-5">
+  <div class="d-flex justify-content-center m-1 mb-1">
+    <h1 class="intro-head"> Quizzle</h1>
+    <img class="logo-sm" src="../static/images/LOGO.png">
+  </div>
+  <h5 class="charcol text-center mb-4"> A daily Spanish-English quiz game</h5>
+  <div class="container m-2 ">
+    <div class="row justify-content-center">
+      <div class="col-12 col-sm-12  col-md-6 col-lg-4 container-login p-5">
+        <h3 class="whiteish text-center standout mb-3">Register</h3>
+        <form action="/register" method="post">
+          <!-- Username input -->
+          <div class="form-outline mb-4">
+            <input type="text" id="username" name="username" placeholder="Username" class="form-control" required />
+          </div>
+          <!-- email input -->
+          <div class="form-outline mb-4">
+            <input type="email" id="email" name="email" placeholder="Email" class="form-control" required pattern="^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$"  />
+          </div>
+          <!-- Password input -->
+          <div class="form-outline mb-4">
+            <input type="text" id="password" name="password" class="form-control" placeholder="Password" min="8" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required/>
+          </div>
+          <!-- Password confirmation input  -->
+          <div class="form-outline mb-4">
+            <input type="text" id="confirmation" name="confirmation" placeholder="Password Confirmation" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
+              class="form-control" min="8" required  oninput="check(this)"/>
+          </div>
+          <script language='javascript' type='text/javascript'>
+            function check(input) {
+                if (input.value != document.getElementById('password').value) {
+                    input.setCustomValidity('Password Must be Matching.');
+                } else {
+                    // input is valid -- reset the error message
+                    input.setCustomValidity('');
+                }
+            }
+          </script>
+          <!-- error div -->
+          <div class="error-div">
+            {% if error_message is not none %}
+            <p>{{ error_message }} </p>
+            {% else %}
+                NONE
+            {% endif %}
+          </div>
+          <!-- Submit button -->
+          <button type="submit" class="btn btn-dark btn-block mb-4">Register</button>
+          <!-- info text -->
+        </form>
+
+        <div class="important_info">
+          <h6>Passwords must include at least 8 character, one number, and one of ! . # $ ? - </h6>
+        </div>
+        <!-- Login buttons -->
+        <div class="text-center">
+          <p class="mt-3">Already a member? <a href="/login">Login</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

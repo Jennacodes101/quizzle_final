@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+      <!-- Bootstrap CSS/ CSS STYLE SHEET -->
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+      <link href="/static/style.css" rel="stylesheet">
+
+      <title>  {% block title %}Quizzle{% endblock %}</title>
+
+    </head>
+
+  <body class="d-flex flex-column min-vh-100">
+  <!-- navigation-->
+  <div class= "container-fluid mt-3 my-4" id="nav-container">
+    {% if session["user_id"] %}
+    <!-- LATER UPDATE add javascript behavior create a pill effect-->
+
+    <nav class="navbar navbar-light bg-light">
+      <div class="container-fluid">
+        <div class=" d-inline-flex">
+          <a class="nav-link" id="logo" href="/" alt="Home" >
+            <img src="../static/images/LOGO.png">
+          </a>
+          <a class="nav-link jet" href="/profile"><h4 class="nav-text-head">Profile</h4></a>
+        </div>
+        <a class="nav-link jet d-flex" href="/logout"><h4 class="nav-text-head">Logout</h4></a>
+      </div>
+    </nav>
+
+    {% else %}
+      <ul class="nav justify-content-center">
+        <li class="nav-item ">
+          <a class="nav-link jet" id="logo" href="/" alt="Home">
+          <img src="../static/images/LOGO.png">
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link jet " href="/login"> <h4 class="nav-text-head">Login</h4></a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link jet cus-nav-text" href="/register"><h4 class="nav-text-head">Register</h4></a>
+        </li>
+      </ul>
+    {% endif %}
+  </div>
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+  <main class="container-fluid">
+    {% block main %} {% endblock %}
+  </main>
+
+  <footer class="mt-auto">
+    <div class="container footer-div">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p class="charcol footer-div-p"> Thanks for playing! This website was created as a final project for Harvard <a href="https://pll.harvard.edu/course/cs50-introduction-computer-science?delta=0" target="_blank"> CS50 </a></p>
+          </div>
+          <div class="col">
+            <a type="button" class="btn btn-outline-secondary" href="/about" target="_blank">About the creator</a>
+
+          </div>
+        </div>
+    </div>
+  </footer>
+
+  </body>
+</html>
